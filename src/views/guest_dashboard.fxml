@@ -49,8 +49,8 @@
                 <Button text="Browse Rooms" onAction="#openRoomBrowser" prefWidth="180"/>
                 <Button text="My Reservations" onAction="#openReservations" prefWidth="180"/>
                 <Button text="Checkout / Payment" onAction="#openCheckout" prefWidth="180"/>
+                <Button text="Chat" onAction="#openChat" prefWidth="120"/>
             </HBox>
-
             <Label text="Active Reservations" styleClass="section-label"/>
 
             <ListView fx:id="activeReservationsList"

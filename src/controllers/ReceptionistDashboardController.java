@@ -1,5 +1,6 @@
 package controllers;
 
+import database.DatabaseManager;
 import database.HotelDatabase;
 import enums.PaymentMethod;
 import javafx.beans.property.SimpleObjectProperty;
@@ -105,6 +106,8 @@ public class ReceptionistDashboardController {
 
             receptionist.checkInGuest(selected.getReservationId());
 
+            DatabaseManager.saveAllData();
+
             showInfo("Guest checked in successfully.");
             loadReservations();
 
@@ -127,6 +130,8 @@ public class ReceptionistDashboardController {
             PaymentMethod method = paymentMethodBox.getValue();
 
             receptionist.checkOutGuest(selected.getReservationId(), method);
+
+            DatabaseManager.saveAllData();
 
             showInfo("Guest checked out successfully.");
             loadReservations();
@@ -160,5 +165,9 @@ public class ReceptionistDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    private void openChat() {
+        SceneNavigator.switchTo("chat.fxml");
     }
 }

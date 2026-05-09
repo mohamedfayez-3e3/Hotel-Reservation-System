@@ -1,14 +1,15 @@
 package controllers;
 
+import database.DatabaseManager;
 import database.HotelDatabase;
 import enums.PaymentMethod;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.*;
-
+import threading.RoomAvailabilityTask;
 import utils.SceneNavigator;
 import utils.SessionData;
 
@@ -53,11 +54,14 @@ public class RoomBrowserController {
     @FXML
     private Label statusLabel;
 
+    private boolean autoRefreshRunning = true;
+
     @FXML
     public void initialize() {
         setupTable();
         setupFilters();
         loadRooms();
+        startAutoRefresh();
     }
 
     private void setupTable() {
@@ -78,6 +82,7 @@ public class RoomBrowserController {
     }
 
     private void setupFilters() {
+        typeFilterBox.getItems().clear();
         typeFilterBox.getItems().add("All");
 
         for (RoomType roomType : HotelDatabase.roomTypes) {
@@ -90,7 +95,7 @@ public class RoomBrowserController {
     @FXML
     private void loadRooms() {
         String selectedType = typeFilterBox.getValue();
-        String amenityText = amenityField.getText() == null ? "" : amenityField.getText().trim().toLowerCase();
+        String amenityText = amenityField.getText() == null ? "" : amenityField.getText().trim();
 
         double maxPrice = -1;
 
@@ -103,31 +108,55 @@ public class RoomBrowserController {
             return;
         }
 
-        roomTable.setItems(FXCollections.observableArrayList());
+        statusLabel.setText("Loading available rooms...");
 
-        for (Room room : HotelDatabase.rooms) {
-            if (!room.isAvailable()) {
-                continue;
+        RoomAvailabilityTask task = new RoomAvailabilityTask(
+                selectedType,
+                maxPrice,
+                amenityText
+        );
+
+        task.setOnSucceeded(event -> {
+            roomTable.setItems(task.getValue());
+            statusLabel.setText("Available rooms updated.");
+        });
+
+        task.setOnFailed(event -> {
+            if (task.getException() != null) {
+                showError("Error loading rooms: " + task.getException().getMessage());
+            } else {
+                showError("Error loading rooms.");
             }
+        });
 
-            if (selectedType != null && !selectedType.equals("All")
-                    && !room.getRoomType().getTypeName().equals(selectedType)) {
-                continue;
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void startAutoRefresh() {
+        Thread refreshThread = new Thread(() -> {
+            while (autoRefreshRunning) {
+                try {
+                    Thread.sleep(5000);
+
+                    Platform.runLater(() -> {
+                        if (roomTable != null && roomTable.getScene() != null) {
+                            loadRooms();
+                        } else {
+                            autoRefreshRunning = false;
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    autoRefreshRunning = false;
+                    break;
+                }
             }
+        });
 
-            if (maxPrice >= 0 && room.getRoomType().getPricePerNight() > maxPrice) {
-                continue;
-            }
-
-            if (!amenityText.isEmpty()
-                    && !getAmenitiesText(room).toLowerCase().contains(amenityText)) {
-                continue;
-            }
-
-            roomTable.getItems().add(room);
-        }
-
-        statusLabel.setText("Available rooms loaded.");
+        refreshThread.setDaemon(true);
+        refreshThread.start();
     }
 
     @FXML
@@ -158,6 +187,8 @@ public class RoomBrowserController {
             );
 
             createInvoiceForReservation(reservation);
+
+            DatabaseManager.saveAllData();
 
             showInfo("Reservation created successfully.");
             loadRooms();
@@ -226,6 +257,7 @@ public class RoomBrowserController {
 
     @FXML
     private void goBack() {
+        autoRefreshRunning = false;
         SceneNavigator.switchTo("guest_dashboard.fxml");
     }
 

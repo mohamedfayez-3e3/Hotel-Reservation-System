@@ -81,4 +81,8 @@ public class GuestDashboardController {
         SessionData.clearSession();
         SceneNavigator.switchTo("login.fxml");
     }
+    @FXML
+    private void openChat() {
+        SceneNavigator.switchTo("chat.fxml");
+    }
 }

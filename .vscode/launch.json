@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ChatServer",
+            "request": "launch",
+            "mainClass": "networking.ChatServer",
+            "projectName": "hotelsystem_8dbe70d3"
+        },
+        {
+            "type": "java",
             "name": "Run MainApp",
             "request": "launch",
             "mainClass": "app.MainApp",

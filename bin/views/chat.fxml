@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ChatController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Live Chat" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#goBack"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <TextArea fx:id="chatArea"
+                      editable="false"
+                      wrapText="true"
+                      prefHeight="420"
+                      promptText="Chat messages will appear here..."/>
+
+            <HBox spacing="10">
+                <TextField fx:id="messageField"
+                           promptText="Type your message..."
+                           HBox.hgrow="ALWAYS"/>
+
+                <Button text="Send"
+                        onAction="#sendMessage"
+                        prefWidth="120"/>
+            </HBox>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="status-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

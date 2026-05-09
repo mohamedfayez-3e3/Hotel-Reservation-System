@@ -132,6 +132,8 @@ public class CheckoutController {
 
             guest.checkout(selected.getReservationId(), method);
 
+            DatabaseManager.saveAllData();
+
             showInfo("Checkout completed successfully.");
             invoiceArea.clear();
             loadConfirmedReservations();
