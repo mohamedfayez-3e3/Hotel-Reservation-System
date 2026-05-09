@@ -7,4 +7,4 @@ Desktop Hotel Reservation System built with Java using OOP principles.
 Run the project from:
 
 ```bash
-src/MainDemo.java
+src/app/MainApp.java
