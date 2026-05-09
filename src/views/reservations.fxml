@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ReservationController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Reservation Management" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#goBack"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <TableView fx:id="reservationTable" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="idColumn"
+                                 text="Reservation ID"
+                                 prefWidth="130"/>
+
+                    <TableColumn fx:id="roomColumn"
+                                 text="Room"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="checkInColumn"
+                                 text="Check-in"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="checkOutColumn"
+                                 text="Check-out"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="160"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Cancel Reservation"
+                        onAction="#cancelReservation"
+                        prefWidth="180"/>
+            </HBox>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="status-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

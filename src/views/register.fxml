@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.RegisterController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <center>
+        <VBox spacing="12" alignment="CENTER">
+            <padding>
+                <Insets top="25" right="30" bottom="25" left="30"/>
+            </padding>
+
+            <Label text="Register New Guest" styleClass="title-label"/>
+
+            <TextField fx:id="usernameField"
+                       promptText="Username"
+                       maxWidth="350"/>
+
+            <PasswordField fx:id="passwordField"
+                           promptText="Password"
+                           maxWidth="350"/>
+
+            <DatePicker fx:id="dateOfBirthPicker"
+                        promptText="Date of Birth"
+                        maxWidth="350"/>
+
+            <TextField fx:id="balanceField"
+                       promptText="Balance"
+                       maxWidth="350"/>
+
+            <TextField fx:id="addressField"
+                       promptText="Address"
+                       maxWidth="350"/>
+
+            <ComboBox fx:id="genderBox"
+                      maxWidth="350"/>
+
+            <TextField fx:id="preferencesField"
+                       promptText="Room Preferences"
+                       maxWidth="350"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Register"
+                        onAction="#handleRegister"
+                        prefWidth="160"/>
+
+                <Button text="Back"
+                        onAction="#goBackToLogin"
+                        prefWidth="160"/>
+            </HBox>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="error-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

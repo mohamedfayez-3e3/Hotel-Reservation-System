@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AdminDashboardController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Admin Dashboard" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Logout" onAction="#logout"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="10" prefWidth="220" styleClass="side-menu">
+            <padding>
+                <Insets top="20" right="15" bottom="20" left="15"/>
+            </padding>
+
+            <Button text="View Guests" onAction="#viewGuests" maxWidth="Infinity"/>
+            <Button text="View Rooms" onAction="#viewRooms" maxWidth="Infinity"/>
+            <Button text="View Reservations" onAction="#viewReservations" maxWidth="Infinity"/>
+            <Button text="View Room Types" onAction="#viewRoomTypes" maxWidth="Infinity"/>
+            <Button text="View Amenities" onAction="#viewAmenities" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <Label text="Admin Output" styleClass="section-label"/>
+
+            <TextArea fx:id="outputArea"
+                      promptText="Data will appear here..."
+                      editable="false"
+                      prefHeight="420"/>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="status-label"/>
+        </VBox>
+    </center>
+
+</BorderPane>
