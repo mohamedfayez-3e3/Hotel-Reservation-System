@@ -1,10 +1,9 @@
 package controllers;
 
+import database.DatabaseManager;
 import database.HotelDatabase;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import models.Amenity;
 import models.Guest;
 import models.Reservation;
@@ -22,14 +21,114 @@ public class AdminDashboardController {
     private Label statusLabel;
 
     @FXML
+    private TextField roomNumberField;
+
+    @FXML
+    private ComboBox<String> roomTypeBox;
+
+    @FXML
+    private CheckBox availableCheckBox;
+
+    @FXML
     public void initialize() {
         if (SessionData.currentAdmin == null) {
             SceneNavigator.switchTo("login.fxml");
             return;
         }
 
+        setupRoomTypeBox();
+
         statusLabel.setText("Welcome, " + SessionData.currentAdmin.getUsername());
         viewGuests();
+    }
+
+    private void setupRoomTypeBox() {
+        roomTypeBox.getItems().clear();
+
+        for (RoomType roomType : HotelDatabase.roomTypes) {
+            roomTypeBox.getItems().add(roomType.getTypeName());
+        }
+
+        if (!roomTypeBox.getItems().isEmpty()) {
+            roomTypeBox.setValue(roomTypeBox.getItems().get(0));
+        }
+    }
+
+    @FXML
+    private void addRoom() {
+        try {
+            String roomNumberText = roomNumberField.getText().trim();
+
+            if (roomNumberText.isEmpty()) {
+                showError("Please enter room number.");
+                return;
+            }
+
+            int roomNumber = Integer.parseInt(roomNumberText);
+
+            if (HotelDatabase.findRoomByNumber(roomNumber) != null) {
+                showError("Room number already exists.");
+                return;
+            }
+
+            String selectedTypeName = roomTypeBox.getValue();
+
+            if (selectedTypeName == null) {
+                showError("Please select room type.");
+                return;
+            }
+
+            RoomType selectedRoomType = findRoomTypeByName(selectedTypeName);
+
+            if (selectedRoomType == null) {
+                showError("Room type not found.");
+                return;
+            }
+
+            Room newRoom = new Room(
+                    generateRoomId(),
+                    roomNumber,
+                    availableCheckBox.isSelected(),
+                    selectedRoomType
+            );
+
+            SessionData.currentAdmin.addRoom(newRoom);
+
+            DatabaseManager.saveAllData();
+
+            roomNumberField.clear();
+            availableCheckBox.setSelected(true);
+
+            showInfo("Room added successfully and saved to database.");
+            viewRooms();
+
+        } catch (NumberFormatException e) {
+            showError("Room number must be a valid number.");
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
+    }
+
+    private int generateRoomId() {
+        int max = 0;
+
+        for (Room room : HotelDatabase.rooms) {
+            if (room.getRoomId() > max) {
+                max = room.getRoomId();
+            }
+        }
+
+        return max + 1;
+    }
+
+    private RoomType findRoomTypeByName(String typeName) {
+        for (RoomType roomType : HotelDatabase.roomTypes) {
+            if (roomType.getTypeName().equals(typeName)) {
+                return roomType;
+            }
+        }
+
+        return null;
     }
 
     @FXML
@@ -145,6 +244,16 @@ public class AdminDashboardController {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Admin Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showInfo(String message) {
+        statusLabel.setText(message);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Admin");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

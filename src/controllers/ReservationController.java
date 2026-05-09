@@ -1,13 +1,13 @@
 package controllers;
 
-import database.HotelDatabase;
+import database.DatabaseManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.Guest;
 import models.Reservation;
+import threading.ReservationLoadingTask;
 import utils.SceneNavigator;
 import utils.SessionData;
 
@@ -65,15 +65,26 @@ public class ReservationController {
             return;
         }
 
-        reservationTable.setItems(FXCollections.observableArrayList());
+        statusLabel.setText("Loading reservations...");
 
-        for (Reservation reservation : HotelDatabase.reservations) {
-            if (reservation.getGuest().getUsername().equals(guest.getUsername())) {
-                reservationTable.getItems().add(reservation);
+        ReservationLoadingTask task = new ReservationLoadingTask(guest);
+
+        task.setOnSucceeded(event -> {
+            reservationTable.setItems(task.getValue());
+            statusLabel.setText("Reservations loaded asynchronously.");
+        });
+
+        task.setOnFailed(event -> {
+            if (task.getException() != null) {
+                showError("Error loading reservations: " + task.getException().getMessage());
+            } else {
+                showError("Error loading reservations.");
             }
-        }
+        });
 
-        statusLabel.setText("Reservations loaded.");
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -82,12 +93,19 @@ public class ReservationController {
             Guest guest = SessionData.currentGuest;
             Reservation selected = reservationTable.getSelectionModel().getSelectedItem();
 
+            if (guest == null) {
+                SceneNavigator.switchTo("login.fxml");
+                return;
+            }
+
             if (selected == null) {
                 showError("Please select a reservation first.");
                 return;
             }
 
             guest.cancelReservation(selected.getReservationId());
+
+            DatabaseManager.saveAllData();
 
             showInfo("Reservation cancelled successfully.");
             loadReservations();

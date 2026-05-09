@@ -1,5 +1,6 @@
 package controllers;
 
+import database.DatabaseManager;
 import enums.Gender;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -54,7 +55,8 @@ public class RegisterController {
                     genderBox.getValue(),
                     preferencesField.getText().trim()
             );
-
+            DatabaseManager.saveAllData();
+            
             showInfo("Guest registered successfully.");
             SceneNavigator.switchTo("login.fxml");
 

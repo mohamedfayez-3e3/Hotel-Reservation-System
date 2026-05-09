@@ -63,10 +63,14 @@
                         prefWidth="130"/>
 
                 <ComboBox fx:id="paymentMethodBox"
-                          prefWidth="180"/>
+                        prefWidth="180"/>
 
                 <Button text="Refresh"
                         onAction="#loadReservations"
+                        prefWidth="130"/>
+
+                <Button text="Open Chat"
+                        onAction="#openChat"
                         prefWidth="130"/>
             </HBox>
 

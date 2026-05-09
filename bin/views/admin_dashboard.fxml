@@ -41,16 +41,47 @@
                 <Insets top="20" right="25" bottom="20" left="25"/>
             </padding>
 
+            <Label text="Add New Room" styleClass="section-label"/>
+
+            <GridPane hgap="10" vgap="10" styleClass="card">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+
+                <Label text="Room Number:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="roomNumberField"
+                        promptText="Example: 103"
+                        GridPane.rowIndex="0"
+                        GridPane.columnIndex="1"/>
+
+                <Label text="Room Type:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="roomTypeBox"
+                        prefWidth="180"
+                        GridPane.rowIndex="1"
+                        GridPane.columnIndex="1"/>
+
+                <Label text="Available:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <CheckBox fx:id="availableCheckBox"
+                        selected="true"
+                        GridPane.rowIndex="2"
+                        GridPane.columnIndex="1"/>
+
+                <Button text="Add Room"
+                        onAction="#addRoom"
+                        GridPane.rowIndex="3"
+                        GridPane.columnIndex="1"/>
+            </GridPane>
+
             <Label text="Admin Output" styleClass="section-label"/>
 
             <TextArea fx:id="outputArea"
-                      promptText="Data will appear here..."
-                      editable="false"
-                      prefHeight="420"/>
+                    promptText="Data will appear here..."
+                    editable="false"
+                    prefHeight="300"/>
 
             <Label fx:id="statusLabel"
-                   text=""
-                   styleClass="status-label"/>
+                text=""
+                styleClass="status-label"/>
         </VBox>
     </center>
 
