@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.GuestDashboardController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Guest Dashboard" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Logout" onAction="#logout"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="25" right="30" bottom="25" left="30"/>
+            </padding>
+
+            <GridPane hgap="15" vgap="12" styleClass="card">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="usernameLabel" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Balance:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="balanceLabel" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Address:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="addressLabel" text="-" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Room Preferences:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="preferencesLabel" text="-" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Browse Rooms" onAction="#openRoomBrowser" prefWidth="180"/>
+                <Button text="My Reservations" onAction="#openReservations" prefWidth="180"/>
+                <Button text="Checkout / Payment" onAction="#openCheckout" prefWidth="180"/>
+            </HBox>
+
+            <Label text="Active Reservations" styleClass="section-label"/>
+
+            <ListView fx:id="activeReservationsList"
+                      prefHeight="200"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

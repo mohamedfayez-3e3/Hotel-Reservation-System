@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ReceptionistDashboardController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Receptionist Dashboard" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Logout" onAction="#logout"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <Label text="All Reservations" styleClass="section-label"/>
+
+            <TableView fx:id="reservationTable" prefHeight="350">
+                <columns>
+                    <TableColumn fx:id="idColumn"
+                                 text="Reservation ID"
+                                 prefWidth="130"/>
+
+                    <TableColumn fx:id="guestColumn"
+                                 text="Guest"
+                                 prefWidth="150"/>
+
+                    <TableColumn fx:id="roomColumn"
+                                 text="Room"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="datesColumn"
+                                 text="Dates"
+                                 prefWidth="280"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="140"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Check In"
+                        onAction="#checkIn"
+                        prefWidth="130"/>
+
+                <Button text="Check Out"
+                        onAction="#checkOut"
+                        prefWidth="130"/>
+
+                <ComboBox fx:id="paymentMethodBox"
+                          prefWidth="180"/>
+
+                <Button text="Refresh"
+                        onAction="#loadReservations"
+                        prefWidth="130"/>
+            </HBox>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="status-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.LoginController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <center>
+        <VBox spacing="15" alignment="CENTER">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <Label text="Hotel Reservation System" styleClass="title-label"/>
+
+            <TextField fx:id="usernameField"
+                       promptText="Username"
+                       maxWidth="300"/>
+
+            <PasswordField fx:id="passwordField"
+                           promptText="Password"
+                           maxWidth="300"/>
+
+            <ComboBox fx:id="roleBox"
+                      maxWidth="300"/>
+
+            <Button text="Login"
+                    onAction="#handleLogin"
+                    maxWidth="300"/>
+
+            <Button text="Register New Guest"
+                    onAction="#goToRegister"
+                    maxWidth="300"/>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="error-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

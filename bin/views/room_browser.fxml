@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.RoomBrowserController"
+            prefWidth="900"
+            prefHeight="600">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Room Browsing" styleClass="title-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#goBack"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="typeFilterBox" prefWidth="160"/>
+
+                <TextField fx:id="maxPriceField"
+                           promptText="Max Price"
+                           prefWidth="140"/>
+
+                <TextField fx:id="amenityField"
+                           promptText="Amenity"
+                           prefWidth="160"/>
+
+                <Button text="Filter"
+                        onAction="#loadRooms"
+                        prefWidth="100"/>
+            </HBox>
+
+            <TableView fx:id="roomTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="roomNumberColumn"
+                                 text="Room Number"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="typeColumn"
+                                 text="Type"
+                                 prefWidth="150"/>
+
+                    <TableColumn fx:id="priceColumn"
+                                 text="Price/Night"
+                                 prefWidth="130"/>
+
+                    <TableColumn fx:id="capacityColumn"
+                                 text="Capacity"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="amenitiesColumn"
+                                 text="Amenities"
+                                 prefWidth="350"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <DatePicker fx:id="checkInPicker"
+                            promptText="Check-in Date"
+                            prefWidth="180"/>
+
+                <DatePicker fx:id="checkOutPicker"
+                            promptText="Check-out Date"
+                            prefWidth="180"/>
+
+                <Button text="Make Reservation"
+                        onAction="#makeReservation"
+                        prefWidth="180"/>
+            </HBox>
+
+            <Label fx:id="statusLabel"
+                   text=""
+                   styleClass="status-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
